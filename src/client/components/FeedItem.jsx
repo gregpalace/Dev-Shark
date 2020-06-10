@@ -10,6 +10,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
+import CommentsModal from './CommentsModal';
+
 
 const useStyles = makeStyles({
   itemWrap: {
@@ -29,16 +31,24 @@ const useStyles = makeStyles({
 
 const FeedItem = (props) => {
   const classes = useStyles();
+  const [showComments, setShowComments] = useState(false)
+  
 
   // toggles the heart icon and calls action to increment/decrement 'likes' accordingly
   // props.liked, props.tech, and props.id passed down from DB to parent component to FeedItem
   const toggleHeart = () => {
     if (props.liked) {
+      setShowComments(true)
       props.downvote(props.id, props.tech);
     } else {
+      setShowComments(false)
+
       props.upvote(props.id, props.tech);
     }
   };
+
+  let comments = null;
+  if (showComments) comments = <CommentsModal/>
   return (
     <Card className={classes.itemWrap}>
       <CardContent>
@@ -56,6 +66,9 @@ const FeedItem = (props) => {
               Visit Resource
             </a>
           </Button>
+          <Button size="small" color="primary">
+            Comments
+          </Button>
           {/* toggles heart */}
           <Button size="small" onClick={() => toggleHeart()}>
             {props.likes}
@@ -65,7 +78,11 @@ const FeedItem = (props) => {
               <FavoriteBorderRoundedIcon />
             )}
           </Button>
+          
         </div>
+        {comments}
+        
+      
       </CardContent>
     </Card>
   );
