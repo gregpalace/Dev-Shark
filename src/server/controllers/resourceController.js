@@ -1,107 +1,101 @@
 const db = require('./../models/resourceModels');
-
+const Resource = require('../../models/resource');
+const Tech = require('../../models/tech');
+const Comment = require('../../models/comment');
+const User = require('../../models/user');
 // Initialize controller object
 const resourceController = {};
 
-let item = '';
 // Get all resources from the db based on tech name 
 resourceController.getResources = (req, res, next) => {
-  // Tech name can be received one of two ways, depending on where the middleware is called
-  let tech_name = req.body.tech || req.params.name;
-  // console.log('In the get getresources      ', tech_name);
-  // alternate way of writing this query => 'SELECT * FROM tech JOIN resources ON resources.tech_id = tech._id WHERE tech = $1 ORDER BY likes DESC'
-  item = `SELECT resources._id, resources.name, resources.url, resources.likes, resources.description, resources.tech_id, resources.liked, techs.tech FROM resources, techs WHERE techs.tech = $1 and techs._id = resources.tech_id order by likes DESC;`;
-  const values = [tech_name];
-  db.query(item, values)
-    .then((query) => {
-      res.locals.resources = query.rows;
-      return next();
-    })
-    .catch((err) =>
-      next({
-        log: 'ERROR in resourceControllers.getResources',
-        message: { err: `ERROR in getResources ${err}` },
-      })
-    );
+  console.log("Inside resource controller")
+  Resource.find({}, function (err, resource) {
+    if (err) console.log(err);
+    res.locals.resources = resource;
+    console.log(resource);
+  }).then(() => {
+    return next();
+  })
+
 };
 
-// Get's the tech id (from post tech name in the request body) to be used in adding a resource
-resourceController.getTechId = (req, res, next) => {
-  // console.log('Im in the techid', req.body.tech);
-  // Tech is the tech name associated with a resource: can be obtained via the body or by locals
-  let tech = req.body.tech || res.locals.resourceById.tech;
-  item = `SELECT _id FROM techs WHERE tech = $1`;
-  const values = [tech];
-  db.query(item, values)
-    .then((query) => {
-      // Get just the number value from our rows
-      res.locals.techId = query.rows[0]._id;
-      return next();
-    })
-    .catch((err) =>
-      next({
-        log: 'ERROR IN resourceControllers.getTechId',
-        message: { err: `ERROR in getTechId ${err}` },
+// we need a name, desc, url, likes, comments
+
+resourceController.createResources = (req, res, next) => {
+  Tech.findById("5ee12f3ce11d110f1c35dfb0").exec().then((tech) =>
+    // const { name, description, url, likes, comments } = req.body;
+    // whatever the create resource is, we push to tech
+    Resource.create({ name: 'nameTest2', description: 'descriptionTest2', url: 'urlTest2', likes: 5, comments: [], techId: "5ee12f3ce11d110f1c35dfb0" })
+      .then((resource) => {
+        // console.log(resource);
+        // tech needs to be associated with a given resource
+        tech.resources.push(resource);
+        console.log(tech);
+      }).then(() => {
+        tech.save();
+      }).then(() => {
+        return next();
       })
-    );
+      .catch((err) => {
+        console.log(err);
+        return next(err);
+      })
+    // push tech onto resources array
+  )
+    .catch((err) => {
+      console.log(err);
+      return next(err);
+    })
 };
+
+// push a resource onto the tech.resources property --> tech.resources.
+
+resourceController.createTech = (req, res, next) => {
+  Tech.create({ id: 7, name: 'Enzyme', resources: [] })
+    .then((tech) => {
+      res.locals.tech = tech;
+      return next();
+    }).catch((err) => {
+      return next(err);
+    })
+}
+
+resourceController.createComment = (req, res, next) => {
+  const currTime = Date.now();
+  Resource.findById("5ee15416955bd9125fbdcabd").exec().then((resource) =>
+
+    Comment.create({ text: 'Missing Value', date: currTime, userName: 'CORS Tom' })
+      .then((comment) => {
+        resource.comments.push(comment);
+        console.log(resource);
+      }).then(() => {
+        resource.save();
+      }).then(() => {
+        return next();
+      })
+      .catch((err) => {
+        console.log(err);
+        return next(err);
+      })
+  )
+    .catch((err) => {
+      console.log(err);
+      return next(err);
+    })
+}
 
 // Creates a new resource by combining a tech id and the request body info
-resourceController.addResource = (req, res, next) => {
-  let techId = res.locals.techId;
-  let { name, description, url } = req.body;
-  item = `INSERT INTO resources (name, description, url, likes, tech_id, liked)
-    VALUES ($1, $2, $3, 0, $4, false);`;
-  // prevents sql injection
-  const values = [name, description, url, techId];
-  db.query(item, values)
-    .then((query) => {
-      res.locals.resources = query.rows;
-      return next();
-    })
-    .catch((err) =>
-      next({
-        log: 'ERROR in resourceControllers.getResources',
-        message: { err: `ERROR in getResources ${err}` },
-      })
-    );
-};
+
 
 // Increase the like count of a resource by one
 resourceController.addLike = (req, res, next) => {
-  let resourceId = req.body.id;
-  console.log('This is your resource id     ', resourceId);
-  // Increase like count by 1 for a resource(_id)
-  item = `UPDATE resources SET likes = likes + 1, liked = true WHERE _id = $1`;
-  const values = [resourceId];
-  db.query(item, values)
-    .then(() => {
-      return next();
-    })
-    .catch((err) =>
-      next({
-        log: 'ERROR in resourceControllers.addLike',
-        message: { err: `ERROR in addLike ${err}` },
-      })
-    );
+  // access likes property on resource and increment by one
+
 };
 
 // Decrease the like count of a resource by one
 resourceController.subtractLike = (req, res, next) => {
-  let resourceId = req.body.id;
-  // Decrease like count by 1 for a resource(id) if the likes > 0
-  item = `UPDATE resources SET likes = likes - 1 , liked = false WHERE _id = $1 and likes > 0`;
-  const values = [resourceId];
-  db.query(item, values)
-    .then(() => {
-      return next();
-    })
-    .catch((err) =>
-      next({
-        log: 'ERROR in resourceControllers.subtractLike',
-        message: { err: `ERROR in subtractLike ${err}` },
-      })
-    );
+
 };
 
 module.exports = resourceController;

@@ -16,6 +16,7 @@ export const getResource = (resource) => {
   };
 };
 
+
 // Update the current topic to be rendered on screen (used once for initial load)
 // Input: current topic (fetched from props)
 export const updateTopic = (topic) => {
@@ -57,6 +58,7 @@ export const upvote = (id, tech) => {
   };
 };
 
+// Possibly add to DB to allow for negative numbers
 // Send put request to increase like count
 // Input: Id of the resource and the technology associated with the resource
 export const downvote = (id, tech) => {
@@ -71,3 +73,4 @@ export const downvote = (id, tech) => {
       });
   };
 };
+

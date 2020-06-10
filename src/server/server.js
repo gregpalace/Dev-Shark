@@ -4,13 +4,27 @@ const app = express();
 const resourceRouter = require('./routes/resourceRouter');
 const PORT = 3000;
 const cors = require('cors');
+const mongoose = require('mongoose');
 
 // Parse request body
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Set up routers
+const MONGO_URI = 'mongodb+srv://cs_gregpalasciano:1234@delp-fp1gu.mongodb.net/Delp?retryWrites=true&w=majority';
+
+// Connect to our database:
+mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  // for sharding our DB
+  useUnifiedTopology: true,
+  dbName: 'Delp'
+})
+  .then(() => console.log('Connected to Mongo DB.'))
+  .catch((err) => console.log(err));
+
+// Set up routers:
+// Anythin going to /resource means we use resource router
 app.use('/resource', resourceRouter);
 
 // Send main app
