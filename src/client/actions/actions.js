@@ -5,14 +5,17 @@ import * as types from '../constants/actionTypes';
 // Input: resource name
 export const getResource = (resource) => {
   return (dispatch) => {
-    axios.get(`/resource/${resource.toLowerCase()}`).then((response) => {
-      dispatch({
-        type: types.GET_RESOURCE,
-        payload: response.data,
+    axios
+      .get(`/resource/${resource.toLowerCase()}`)
+      .then((response) => {
+        dispatch({
+          type: types.GET_RESOURCE,
+          payload: response.data,
+        });
       });
-    });
   };
 };
+
 
 // Update the current topic to be rendered on screen (used once for initial load)
 // Input: current topic (fetched from props)
@@ -29,12 +32,14 @@ export const updateTopic = (topic) => {
 // Input: resource name in the parameter and resource object to add to DB in body
 export const addResource = (resource) => {
   return (dispatch) => {
-    axios.post(`resource/${resource.name}`, resource).then((response) => {
-      dispatch({
-        type: types.ADD_RESOURCE,
-        payload: response.data,
+    axios
+      .post(`/resource/${resource.name}`, resource)
+      .then((response) => {
+        dispatch({
+          type: types.ADD_RESOURCE,
+          payload: response.data,
+        });
       });
-    });
   };
 };
 
@@ -42,12 +47,14 @@ export const addResource = (resource) => {
 // Input: Id of the resource and the technology associated with the resource
 export const upvote = (id, tech) => {
   return (dispatch) => {
-    axios.put('resource/upvote', { id: id, tech: tech }).then((response) => {
-      dispatch({
-        type: types.UPVOTE,
-        payload: response.data,
+    axios
+      .put('/resource/upvote', { id: id, tech: tech })
+      .then((response) => {
+        dispatch({
+          type: types.UPVOTE,
+          payload: response.data,
+        });
       });
-    });
   };
 };
 
@@ -56,11 +63,14 @@ export const upvote = (id, tech) => {
 // Input: Id of the resource and the technology associated with the resource
 export const downvote = (id, tech) => {
   return (dispatch) => {
-    axios.put('resource/downvote', { id: id, tech: tech }).then((response) => {
-      dispatch({
-        type: types.DOWNVOTE,
-        payload: response.data,
+    axios
+      .put('/resource/downvote', { id: id, tech: tech })
+      .then((response) => {
+        dispatch({
+          type: types.DOWNVOTE,
+          payload: response.data,
+        });
       });
-    });
   };
 };
+

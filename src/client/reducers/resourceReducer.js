@@ -27,6 +27,7 @@ const initialState = {
     'Node',
     'Express',
   ],
+  currentComments: [{text: "first comment"}, {text: 'second comment'}],
 };
 
 const resourceReducer = (state = initialState, action) => {
