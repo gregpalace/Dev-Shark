@@ -34,8 +34,8 @@ const useStyles = makeStyles({
 });
 
 const CommentsModal = (props) => {
-  const currentComments = useSelector(state => state.currentComments);
-  const commentsArray = currentComments.map(el => <Comment text={el.text}/>)
+  //iterate through the commentList that was passed down FeedItem to display comments onclick 
+  const commentsArray = props.commentList.map((el, i) => <Comment text={el.text} key={`comment ${i}`}/>)
   return (
     <div>CommentsModal! (box)
       {commentsArray}

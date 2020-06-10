@@ -31,24 +31,44 @@ const useStyles = makeStyles({
 
 const FeedItem = (props) => {
   const classes = useStyles();
-  const [showComments, setShowComments] = useState(false)
-  
+  const [showComments, setShowComments] = useState(false);
+  const [commentList, setCommentList] = useState([]);
+  let data;
 
+  const getComments = () => {
+    console.log('getting comments')
+    fetch(`/resource/comments/${props.id}`)
+      .then(response => {
+        // dummy data
+        data = [{id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
+        {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
+        {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
+        {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
+        {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'}
+      ]
+        // return response.json()
+      })
+      .then(response => setCommentList(data)); 
+  }
   // toggles the heart icon and calls action to increment/decrement 'likes' accordingly
   // props.liked, props.tech, and props.id passed down from DB to parent component to FeedItem
   const toggleHeart = () => {
     if (props.liked) {
-      setShowComments(true)
       props.downvote(props.id, props.tech);
     } else {
-      setShowComments(false)
-
       props.upvote(props.id, props.tech);
     }
   };
-
+  const toggleComments = () => {
+    if (showComments) {
+      setShowComments(false); 
+    } else {
+      setShowComments(true); 
+      getComments()
+    }
+  }
   let comments = null;
-  if (showComments) comments = <CommentsModal/>
+  if (showComments) comments = <CommentsModal commentList={commentList}/>
   return (
     <Card className={classes.itemWrap}>
       <CardContent>
@@ -66,7 +86,7 @@ const FeedItem = (props) => {
               Visit Resource
             </a>
           </Button>
-          <Button size="small" color="primary">
+          <Button size="small" color="primary" onClick={() => toggleComments()}>
             Comments
           </Button>
           {/* toggles heart */}
