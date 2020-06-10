@@ -11,11 +11,15 @@ router.get('/', resourceController.getResources, (req, res) => {
   return res.status(200).json(res.locals.resources);
 });
 
+router.post('/comments', resourceController.createComment), (req, res) => {
+  return res.status(200).json(res.locals.comments);
+}
+
 // when a post request is made to localhost/resources/:name from the store
 // Add new resource to the database and return the new list of resources
-
-router.get('/React', resourceController.getResourceByTechName, (req, res) => {
-  return res.status(200).json(res.locals.techResource);
+// create resources will be a POST method later
+router.get('/React', resourceController.createResources, (req, res) => {
+  return res.status(200).json(res.locals.tech);
 })
 
 router.post(
@@ -25,7 +29,7 @@ router.post(
   // ONLY TECHS table knows tech 
   // so we must get tech_id before placing the resource in the Resources Table
   // resourceController.getTechId,
-  resourceController.addResource,
+  // resourceController.addResource,
   resourceController.getResources,
   (req, res) => {
     return res.status(200).json(res.locals.resources);

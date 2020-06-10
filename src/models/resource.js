@@ -14,6 +14,7 @@ const resourceSchema = new Schema({
       ref: 'Comment',
     },
   ],
+  techId: { type: mongoose.Types.ObjectId, required: true, ref: 'Tech' }
 });
 
 module.exports = mongoose.model('Resource', resourceSchema);

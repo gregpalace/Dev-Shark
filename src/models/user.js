@@ -9,9 +9,6 @@ const userSchema = new Schema({
   resources: [
     { type: mongoose.Types.ObjectId, required: true, ref: 'Resource' },
   ],
-  comments: [
-    { type: mongoose.Types.ObjectId, required: true, ref: 'Comment' }
-  ],
 });
 
 module.exports = mongoose.model('User', userSchema);
