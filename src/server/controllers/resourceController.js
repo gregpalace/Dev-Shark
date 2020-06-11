@@ -43,7 +43,7 @@ resourceController.getTech = (req, res, next) => {
 
 // we need a name, desc, url, likes, comments
 resourceController.createResources = (req, res, next) => {
-  const tech_id = req.body.techId;
+  const tech_id = req.params.id;
 
   Tech.findById(tech_id)
     .exec()
@@ -96,25 +96,55 @@ resourceController.createTech = (req, res, next) => {
     });
 };
 
-// =======================
+// ============================
 // GET COMMENTS by resource._id
-// =======================
+// ============================
 resourceController.getComment = (req, res, next) => {
   // find our resources by ID and get the comments associated with that Id
-  const resource_id = req.body.resourceId;
+  const resource_id = req.params.id;
+  console.log('req.body in getComment *****', resource_id)
+
+  // const getData = async () => {
+  //   return Promise.all(list.map(item => anAsyncFunction(item)))
+  // }
+  
 
   Resource.findById(resource_id)
+    .exec()
     .then((resource) => {
       const comments = resource.comments;
-      res.locals.comments = comments;
-      console.log('Comments for a given resource: ', comments);
-      return next();
-    })
-    .catch((err) => {
+      const asyncFunc = async comment => Comment.findById(comment)
+      const getData = async () => {
+        return Promise.all(comments.map(comment => asyncFunc(comment)))
+      }
+      getData()
+        .then(data => {
+          res.locals.comments = data;
+          return next();
+        })
+        .catch((err) => {
+          console.log(err);
+          return next(err);
+        })
+      })
+      .catch((err) => {
       console.log(err);
       return next(err);
-    });
-};
+    })
+} 
+      // console.log(comments)
+      // return Comment.findById(comments)
+      // return comments.map(comment => Promise.resolve(Comment.findById('5ee1b8c8618c7c33aa2b1133')))
+    // })
+    // .then(results => {
+    //   console.log(results)
+    //   // console.log('commentsArray ****: ', commentsArray)
+    //   // console.log(commentsArray[0])
+    //   // res.locals.comments = commentsArray;
+    //   // console.log('Comments for a given resource: ', comments);
+    //   return next();
+
+    // })
 
 // const reqBody = {
 //   resourceId: currentResource,

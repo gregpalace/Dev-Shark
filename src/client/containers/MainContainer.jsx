@@ -33,7 +33,7 @@ const MainContainer = (props) => {
       {/* AppBar, where the title of website is, stays on top*/}
       <AppBar position="fixed" className={classes.appBar}>
         <Typography variant="h4" align="left" className={classes.header}>
-          {'</DevShark>'}
+          {'<DELP/>'}
           <Typography variant="inherit" className={classes.subHeader}>
             Developer Resource Aggregator
           </Typography>

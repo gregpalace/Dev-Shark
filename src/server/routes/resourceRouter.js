@@ -13,7 +13,7 @@ router.get('/tech', resourceController.getTech, (req, res) => {
 // =========================
 // GET COMMENT
 // =========================
-router.get('/comments', resourceController.getComment, (req, res) => {
+router.get('/comments/:id', resourceController.getComment, (req, res) => {
   return res.status(200).json(res.locals.comments);
 });
 
