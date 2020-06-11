@@ -102,49 +102,48 @@ resourceController.createTech = (req, res, next) => {
 resourceController.getComment = (req, res, next) => {
   // find our resources by ID and get the comments associated with that Id
   const resource_id = req.params.id;
-  console.log('req.body in getComment *****', resource_id)
+  console.log('req.body in getComment *****', resource_id);
 
   // const getData = async () => {
   //   return Promise.all(list.map(item => anAsyncFunction(item)))
   // }
-  
 
   Resource.findById(resource_id)
     .exec()
     .then((resource) => {
       const comments = resource.comments;
-      const asyncFunc = async comment => Comment.findById(comment)
+      const asyncFunc = async (comment) => Comment.findById(comment);
       const getData = async () => {
-        return Promise.all(comments.map(comment => asyncFunc(comment)))
-      }
+        return Promise.all(comments.map((comment) => asyncFunc(comment)));
+      };
       getData()
-        .then(data => {
+        .then((data) => {
           res.locals.comments = data;
           return next();
         })
         .catch((err) => {
           console.log(err);
           return next(err);
-        })
-      })
-      .catch((err) => {
+        });
+    })
+    .catch((err) => {
       console.log(err);
       return next(err);
-    })
-} 
-      // console.log(comments)
-      // return Comment.findById(comments)
-      // return comments.map(comment => Promise.resolve(Comment.findById('5ee1b8c8618c7c33aa2b1133')))
-    // })
-    // .then(results => {
-    //   console.log(results)
-    //   // console.log('commentsArray ****: ', commentsArray)
-    //   // console.log(commentsArray[0])
-    //   // res.locals.comments = commentsArray;
-    //   // console.log('Comments for a given resource: ', comments);
-    //   return next();
+    });
+};
+// console.log(comments)
+// return Comment.findById(comments)
+// return comments.map(comment => Promise.resolve(Comment.findById('5ee1b8c8618c7c33aa2b1133')))
+// })
+// .then(results => {
+//   console.log(results)
+//   // console.log('commentsArray ****: ', commentsArray)
+//   // console.log(commentsArray[0])
+//   // res.locals.comments = commentsArray;
+//   // console.log('Comments for a given resource: ', comments);
+//   return next();
 
-    // })
+// })
 
 // const reqBody = {
 //   resourceId: currentResource,
@@ -192,25 +191,38 @@ resourceController.createComment = (req, res, next) => {
 
 // Creates a new resource by combining a tech id and the request body info
 
-// Increase the like count of a resource by one:
-resourceController.addLike = (req, res, next) => {};
-// // access likes property on resource and increment by one
-// console.log('Inside addLike');
-// // declare variable representing the tech id
-// let resourceId = req.body.resource_id;
-// // perform find method on resource with techId >> techId.name
-// // perform find on our Resource_Id
-// Resource.find({ _id: '5ee12f3ce11d110f1c35dfb0' }, (err, resource) => {
-//   if (err) console.log(err);
-//   // resources is the array of objects containing resources
-//   const likedResource = resource.likes + 1;
-//   res.locals.resources = likedResource;
-//   console.log('resource of react tech addLike:', likedResource);
-// }).then(() => {
-//   return next();
-// });
+// Creates a new resource by combining a tech id and the request body info
+// ========================
+// ADDS LIKE TO RESOURCE
+// ========================
+resourceController.addLike = (req, res, next) => {
+  const resource_id = req.body.resourceId;
+  Resource.findByIdAndUpdate(resource_id, { $inc: { likes: 1 } })
+    .exec()
+    .then((resource) => {
+      res.locals.resources = resource;
+      return next();
+    })
+    .catch((err) => {
+      return next(err);
+    });
+};
 
 // Decrease the like count of a resource by one
-resourceController.subtractLike = (req, res, next) => {};
+// =============================
+// REMOVE LIKE FROM RESOURCE
+// ============================
+resourceController.subtractLike = (req, res, next) => {
+  const resource_id = req.body.resourceId;
+  Resource.findByIdAndUpdate(resource_id, { $inc: { likes: -1 } })
+    .exec()
+    .then((resource) => {
+      res.locals.resources = resource;
+      return next();
+    })
+    .catch((err) => {
+      return next(err);
+    });
+};
 
 module.exports = resourceController;
