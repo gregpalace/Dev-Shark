@@ -11,15 +11,17 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const MONGO_URI = 'mongodb+srv://cs_gregpalasciano:1234@delp-fp1gu.mongodb.net/Delp?retryWrites=true&w=majority';
+const MONGO_URI =
+  'mongodb+srv://cs_gregpalasciano:1234@delp-fp1gu.mongodb.net/Delp?retryWrites=true&w=majority';
 
 // Connect to our database:
-mongoose.connect(MONGO_URI, {
-  useNewUrlParser: true,
-  // for sharding our DB
-  useUnifiedTopology: true,
-  dbName: 'Delp'
-})
+mongoose
+  .connect(MONGO_URI, {
+    useNewUrlParser: true,
+    // for sharding our DB
+    useUnifiedTopology: true,
+    dbName: 'Delp',
+  })
   .then(() => console.log('Connected to Mongo DB.'))
   .catch((err) => console.log(err));
 
@@ -45,11 +47,11 @@ app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware',
     status: 400,
-    message: { err: 'An error occurred' },
+    message: { err: 'An error occurred' + err },
   };
 
   const errorObj = Object.assign({}, defaultErr, err);
-  console.log(errorObj.log);
+  console.log(errorObj.message);
   return res.status(errorObj.status).json(errorObj.message);
 });
 

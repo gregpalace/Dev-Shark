@@ -56,8 +56,8 @@ router.post(
 // Add a like and return the new list of resources
 router.put(
   '/upvote',
-  // resourceController.addLike,
-  resourceController.getResources,
+  resourceController.addLike,
+  // resourceController.getResources,s
   (req, res) => {
     return res.status(200).json(res.locals.resources);
   }

@@ -1,20 +1,22 @@
 import axios from 'axios';
 import * as types from '../constants/actionTypes';
 
-//Once backend has a GET request done, finish this function to render techs on the Navbar 
+//Once backend has a GET request done, finish this function to render techs on the Navbar
 export const getTech = () => {
   return (dispatch) => {
-  axios
-    .get( `/resource/tech`)
-    .then((response) => {
+    axios
+      .get(`/resource/tech`)
+      .then((response) => {
         dispatch({
-        type: types.GET_TECH,
-        payload: response.data
-        })
+          type: types.GET_TECH,
+          payload: response.data,
+        });
       })
-    .catch(err => console.log('there was an error in actions.js getTech:', err)); 
-  }
-}
+      .catch((err) =>
+        console.log('there was an error in actions.js getTech:', err)
+      );
+  };
+};
 
 // Send get request to server for resource (tech name)
 // Input: resource name
@@ -23,7 +25,7 @@ export const getResource = (currentTopic) => {
     // console.log('request to : ', `/resource/${resource.toLowerCase()}`)
     axios
       // .get(`/resource/${resource.toLowerCase()}`)
-      .get(`/resource/${currentTopic._id}`)      
+      .get(`/resource/${currentTopic._id}`)
       .then((response) => {
         dispatch({
           type: types.GET_RESOURCE,
@@ -32,7 +34,6 @@ export const getResource = (currentTopic) => {
       });
   };
 };
-
 
 // Update the current topic to be rendered on screen (used once for initial load)
 // Input: current topic (fetched from props)
@@ -49,14 +50,12 @@ export const updateTopic = (topic) => {
 // Input: resource name in the parameter and resource object to add to DB in body
 export const addResource = (resource) => {
   return (dispatch) => {
-    axios
-      .post(`/resource/${resource.name}`, resource)
-      .then((response) => {
-        dispatch({
-          type: types.ADD_RESOURCE,
-          payload: response.data,
-        });
+    axios.post(`/resource/${resource.name}`, resource).then((response) => {
+      dispatch({
+        type: types.ADD_RESOURCE,
+        payload: response.data,
       });
+    });
   };
 };
 
@@ -80,14 +79,13 @@ export const addResource = (resource) => {
 // Input: Id of the resource and the technology associated with the resource
 export const upvote = (id, tech) => {
   return (dispatch) => {
-    axios
-      .put('/resource/upvote', { id: id, tech: tech })
-      .then((response) => {
-        dispatch({
-          type: types.UPVOTE,
-          payload: response.data,
-        });
+    // we need to target the _id for a given resource && techId
+    axios.put('/resource/upvote', { id: id, tech: tech }).then((response) => {
+      dispatch({
+        type: types.UPVOTE,
+        payload: response.data,
       });
+    });
   };
 };
 
@@ -96,14 +94,11 @@ export const upvote = (id, tech) => {
 // Input: Id of the resource and the technology associated with the resource
 export const downvote = (id, tech) => {
   return (dispatch) => {
-    axios
-      .put('/resource/downvote', { id: id, tech: tech })
-      .then((response) => {
-        dispatch({
-          type: types.DOWNVOTE,
-          payload: response.data,
-        });
+    axios.put('/resource/downvote', { id: id, tech: tech }).then((response) => {
+      dispatch({
+        type: types.DOWNVOTE,
+        payload: response.data,
       });
+    });
   };
 };
-

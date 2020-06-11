@@ -1,7 +1,5 @@
 import * as types from '../constants/actionTypes';
 
-
-
 // Set initial state
 const initialState = {
   resources: [
@@ -20,7 +18,7 @@ const initialState = {
 
 const resourceReducer = (state = initialState, action) => {
   switch (action.type) {
-    //Update state with array of techs 
+    //Update state with array of techs
     case types.GET_TECH:
       return {
         ...state,

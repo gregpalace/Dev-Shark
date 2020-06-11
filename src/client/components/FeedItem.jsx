@@ -12,7 +12,6 @@ import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 import CommentsModal from './CommentsModal';
 
-
 const useStyles = makeStyles({
   itemWrap: {
     background: '#fdfdfd',
@@ -36,28 +35,29 @@ const FeedItem = (props) => {
   let data;
 
   const getComments = () => {
-    console.log('getting comments')
+    console.log('getting comments');
     // fetch(`/resource/comments/${props._id}`)
-    fetch(`/resource/comments/5ee15416955bd9125fbdcabd`)
-      .then(res => res.json())
-      .then(response => {
+    fetch(`/resource/comments/${props.id}`)
+      .then((res) => res.json())
+      .then((response) => {
         // dummy data
-        console.log('response from comments request: ', response)
-        setCommentList(response)
+        console.log('response from comments request: ', response);
+        setCommentList(response);
 
-      //   data = [{id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
-      //   {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
-      //   {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
-      //   {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
-      //   {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'}
-      // ]
+        //   data = [{id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
+        //   {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
+        //   {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
+        //   {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
+        //   {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'}
+        // ]
         // return response.json()
-      })
-      // .then(response => setCommentList(data)); 
-  }
+      });
+    // .then(response => setCommentList(data));
+  };
   // toggles the heart icon and calls action to increment/decrement 'likes' accordingly
   // props.liked, props.tech, and props.id passed down from DB to parent component to FeedItem
   const toggleHeart = () => {
+    console.log('Inside FeedItem.jsx ******', props.id, props.tech);
     if (props.liked) {
       props.downvote(props.id, props.tech);
     } else {
@@ -66,36 +66,35 @@ const FeedItem = (props) => {
   };
   const toggleComments = () => {
     if (showComments) {
-      setShowComments(false); 
+      setShowComments(false);
     } else {
-      setShowComments(true); 
-      getComments()
+      setShowComments(true);
+      getComments();
     }
-  }
+  };
   let comments = null;
-  if (showComments) comments = <CommentsModal commentList={commentList} getComments={getComments}/>
+  if (showComments)
+    comments = (
+      <CommentsModal commentList={commentList} getComments={getComments} />
+    );
   return (
     <Card className={classes.itemWrap}>
       <CardContent>
         <Box>
-        {/* displays resource title */}
+          {/* displays resource title */}
           <Typography variant="h6">{props.name}</Typography>
         </Box>
         {/* displays resource description */}
         <Typography variant="body1">{props.description}</Typography>
         <Divider className={classes.itemDiv} />
         <div className={classes.itemActions}>
-        {/* displays resource link */}
+          {/* displays resource link */}
           <Button size="small" color="primary">
             <a href={props.url} target="_blank">
               Visit Resource
             </a>
           </Button>
-          <Button 
-            size="small" 
-            color="primary"
-            onClick={() => toggleComments()}
-            >
+          <Button size="small" color="primary" onClick={() => toggleComments()}>
             Comments
           </Button>
           {/* toggles heart */}
@@ -107,11 +106,8 @@ const FeedItem = (props) => {
               <FavoriteBorderRoundedIcon />
             )}
           </Button>
-          
         </div>
         {comments}
-        
-      
       </CardContent>
     </Card>
   );

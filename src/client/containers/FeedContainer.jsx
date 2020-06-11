@@ -25,8 +25,6 @@ const useStyles = makeStyles((theme) => ({
 
 // maps array of resources and current topic from store as props
 
-
-
 // maps relevant dispatches to functions available as props for
 // getting resources and upvoting / downvoting a particular resource
 
@@ -44,13 +42,13 @@ const mapDispatchToProps = (dispatch) => ({
 
 const FeedContainer = (props) => {
   const classes = useStyles();
-  const resources = useSelector(state => {
-    return state.resources
-  }); 
-  const currentTopic = useSelector(state => {
-    return state.currentTopic
+  const resources = useSelector((state) => {
+    return state.resources;
   });
-  const dispatch = useDispatch()
+  const currentTopic = useSelector((state) => {
+    return state.currentTopic;
+  });
+  const dispatch = useDispatch();
 
   return (
     <div className={classes.shiftDown}>

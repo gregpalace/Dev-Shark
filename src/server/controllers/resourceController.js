@@ -43,7 +43,7 @@ resourceController.getTech = (req, res, next) => {
 
 // we need a name, desc, url, likes, comments
 resourceController.createResources = (req, res, next) => {
-  const tech_id = req.params.id;
+  const tech_id = req.body.id;
 
   Tech.findById(tech_id)
     .exec()
@@ -197,6 +197,7 @@ resourceController.createComment = (req, res, next) => {
 // ========================
 resourceController.addLike = (req, res, next) => {
   const resource_id = req.body.resourceId;
+  console.log(resource_id);
   Resource.findByIdAndUpdate(resource_id, { $inc: { likes: 1 } })
     .exec()
     .then((resource) => {
