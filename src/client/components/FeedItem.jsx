@@ -68,7 +68,7 @@ const FeedItem = (props) => {
     }
   }
   let comments = null;
-  if (showComments) comments = <CommentsModal commentList={commentList}/>
+  if (showComments) comments = <CommentsModal commentList={commentList} getComments={getComments}/>
   return (
     <Card className={classes.itemWrap}>
       <CardContent>
@@ -86,7 +86,11 @@ const FeedItem = (props) => {
               Visit Resource
             </a>
           </Button>
-          <Button size="small" color="primary" onClick={() => toggleComments()}>
+          <Button 
+            size="small" 
+            color="primary"
+            onClick={() => toggleComments()}
+            >
             Comments
           </Button>
           {/* toggles heart */}
