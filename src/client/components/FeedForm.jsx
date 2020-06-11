@@ -184,7 +184,7 @@ const FeedForm = (props) => {
         <Select name="tech" value={tech} onChange={handleChange} label="Tech">
           {techs.map((elem, index) => {
             return (
-              <MenuItem key={index} value={elem.toLowerCase()}>
+              <MenuItem key={index} value={elem.name.toLowerCase()}>
                 {elem}
               </MenuItem>
             );

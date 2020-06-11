@@ -2,20 +2,29 @@ import axios from 'axios';
 import * as types from '../constants/actionTypes';
 
 //Once backend has a GET request done, finish this function to render techs on the Navbar 
-// export const getTech = () => {
-//   `/resource/tech`
-// }
+export const getTech = () => {
+  return (dispatch) => {
+  axios
+    .get( `/resource/tech`)
+    .then((response) => {
+        dispatch({
+        type: types.GET_TECH,
+        payload: response.data
+        })
+      })
+    .catch(err => console.log('there was an error in actions.js getTech:', err)); 
+  }
+}
 
 // Send get request to server for resource (tech name)
 // Input: resource name
-export const getResource = (resource) => {
+export const getResource = (currentTopic) => {
   return (dispatch) => {
     // console.log('request to : ', `/resource/${resource.toLowerCase()}`)
     axios
       // .get(`/resource/${resource.toLowerCase()}`)
-      .get(`/resource`)      
+      .get(`/resource/${currentTopic._id}`)      
       .then((response) => {
-        console.log('getting data in actions.js getResource', response)
         dispatch({
           type: types.GET_RESOURCE,
           payload: response.data,

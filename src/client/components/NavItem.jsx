@@ -6,7 +6,7 @@ export default function NavItem({ topic, getFunc }) {
   return (
     // each button item will send pass its respective topic to the function sending a GET request
     <ListItem button onClick={(e) => getFunc(topic)}>
-      <ListItemText primary={topic} />
+      <ListItemText primary={topic.name} />
     </ListItem>
   );
 }

@@ -41,7 +41,7 @@ const CommentsModal = (props) => {
 
   const addComment = () => {
     const reqBody = {
-      resource: currentResource,
+      resourceId: currentResource,
       comment: {
         text: formValue,
         userName: 'Greg P- ScrumMaster, AtlasMaster'

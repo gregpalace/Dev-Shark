@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 
 const FeedHeader = (props) => {
   const classes = useStyles();
-  const topic = props.currentTopic;
+  const topic = props.currentTopic.name;
   return (
     <div>
       <Box className={classes.itemHeader}>

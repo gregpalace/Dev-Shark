@@ -37,18 +37,23 @@ const FeedItem = (props) => {
 
   const getComments = () => {
     console.log('getting comments')
-    fetch(`/resource/comments/${props.id}`)
+    // fetch(`/resource/comments/${props._id}`)
+    fetch(`/resource/comments/5ee15416955bd9125fbdcabd`)
+      .then(res => res.json())
       .then(response => {
         // dummy data
-        data = [{id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
-        {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
-        {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
-        {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
-        {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'}
-      ]
+        console.log('response from comments request: ', response)
+        setCommentList(response)
+
+      //   data = [{id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
+      //   {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
+      //   {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
+      //   {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'},
+      //   {id: 'commentID', text: 'Content of comment', user: 'user who made the comment'}
+      // ]
         // return response.json()
       })
-      .then(response => setCommentList(data)); 
+      // .then(response => setCommentList(data)); 
   }
   // toggles the heart icon and calls action to increment/decrement 'likes' accordingly
   // props.liked, props.tech, and props.id passed down from DB to parent component to FeedItem
