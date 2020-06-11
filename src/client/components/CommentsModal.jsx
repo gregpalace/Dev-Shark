@@ -37,11 +37,11 @@ const useStyles = makeStyles({
 const CommentsModal = (props) => {
   // might need to pass down and invoke getComments from FeedItem
   const [formValue, setFormValue] = useState('');
-  const currentResource = useSelector(state => state.currentTopic);
+
 
   const addComment = () => {
     const reqBody = {
-      resourceId: currentResource,
+      resourceId: props.resourceId,
       comment: {
         text: formValue,
         userName: 'Greg P- ScrumMaster, AtlasMaster'
@@ -50,16 +50,19 @@ const CommentsModal = (props) => {
     axios
       .post(`resource/comments`, reqBody)
       .then((res) => {
+        setFormValue('')
+        props.getComments()
+        console.log('response from add Comment', res)
       })
-      .then(props.getComments())
       .catch(err => console.log(`Error in CommentsModal addComment: ${err}`))
   }
   
+  
 
   //iterate through the commentList that was passed down FeedItem to display comments onclick 
-  const commentsArray = props.commentList.map((el, i) => <Comment text={el.text} key={`comment ${i}`}/>)
+  const commentsArray = props.commentList.map((el, i) => <Comment text={el.text} date={el.date} key={`comment ${i}`}/>)
   return (
-    <div>CommentsModal! (box)
+    <div>
       {commentsArray}
       <TextField 
         variant="filled" 

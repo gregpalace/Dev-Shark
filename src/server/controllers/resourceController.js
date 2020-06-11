@@ -33,7 +33,6 @@ resourceController.getTech = (req, res, next) => {
     .exec()
     .then((techList) => {
       res.locals.techList = techList;
-      console.log('IN getTech techList:', techList);
       return next();
     })
     .catch((err) => {
