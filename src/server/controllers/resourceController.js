@@ -116,14 +116,6 @@ resourceController.getComment = (req, res, next) => {
     });
 };
 
-// const reqBody = {
-//   resourceId: currentResource,
-//   comment: {
-//     text: formValue,
-//     userName: 'Greg P- ScrumMaster, AtlasMaster'
-//   }
-// }
-
 // =======================
 // CREATE COMMENT
 // =======================
@@ -159,28 +151,5 @@ resourceController.createComment = (req, res, next) => {
       return next(err);
     });
 };
-
-// Creates a new resource by combining a tech id and the request body info
-
-// Increase the like count of a resource by one:
-resourceController.addLike = (req, res, next) => {};
-// // access likes property on resource and increment by one
-// console.log('Inside addLike');
-// // declare variable representing the tech id
-// let resourceId = req.body.resource_id;
-// // perform find method on resource with techId >> techId.name
-// // perform find on our Resource_Id
-// Resource.find({ _id: '5ee12f3ce11d110f1c35dfb0' }, (err, resource) => {
-//   if (err) console.log(err);
-//   // resources is the array of objects containing resources
-//   const likedResource = resource.likes + 1;
-//   res.locals.resources = likedResource;
-//   console.log('resource of react tech addLike:', likedResource);
-// }).then(() => {
-//   return next();
-// });
-
-// Decrease the like count of a resource by one
-resourceController.subtractLike = (req, res, next) => {};
 
 module.exports = resourceController;
