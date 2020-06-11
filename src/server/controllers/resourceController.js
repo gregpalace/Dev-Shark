@@ -209,6 +209,7 @@ resourceController.addLike = (req, res, next) => {
 };
 
 // Decrease the like count of a resource by one
+// Removes
 // =============================
 // REMOVE LIKE FROM RESOURCE
 // ============================
