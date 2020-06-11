@@ -1,13 +1,21 @@
 import axios from 'axios';
 import * as types from '../constants/actionTypes';
 
+//Once backend has a GET request done, finish this function to render techs on the Navbar 
+// export const getTech = () => {
+//   `/resource/tech`
+// }
+
 // Send get request to server for resource (tech name)
 // Input: resource name
 export const getResource = (resource) => {
   return (dispatch) => {
+    // console.log('request to : ', `/resource/${resource.toLowerCase()}`)
     axios
-      .get(`/resource/${resource.toLowerCase()}`)
+      // .get(`/resource/${resource.toLowerCase()}`)
+      .get(`/resource`)      
       .then((response) => {
+        console.log('getting data in actions.js getResource', response)
         dispatch({
           type: types.GET_RESOURCE,
           payload: response.data,
@@ -42,6 +50,22 @@ export const addResource = (resource) => {
       });
   };
 };
+
+// add comment and send to db
+// function moved to feedItem
+// export const addComment = (comment) => {
+//   axios
+//     .post(`resource/comments`, comment)
+//     .then((res) => {
+//       return (dispatch) => {
+//         dispatch({
+//           type: types.ADD_COMMENT,
+//           payload: res.locals.comment,
+//         })
+//       }
+//     })
+//     .catch(err => console.log(`Error in actions.js addComment ${err}`))
+// }
 
 // Send put request to increase like count
 // Input: Id of the resource and the technology associated with the resource

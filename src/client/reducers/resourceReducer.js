@@ -1,5 +1,7 @@
 import * as types from '../constants/actionTypes';
 
+
+
 // Set initial state
 const initialState = {
   resources: [
@@ -27,7 +29,6 @@ const initialState = {
     'Node',
     'Express',
   ],
-  currentComments: [{text: "first comment"}, {text: 'second comment'}],
 };
 
 const resourceReducer = (state = initialState, action) => {
@@ -50,6 +51,11 @@ const resourceReducer = (state = initialState, action) => {
         ...state,
         resources: action.payload,
       };
+
+    // case types.ADD_COMMENT:
+    //   return {
+
+    //   }
     // Update state with new number of upvotes
     case types.UPVOTE:
       // Backend returns an array of resource objects with the updated likes for each
