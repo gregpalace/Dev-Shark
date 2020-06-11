@@ -32,8 +32,13 @@ const useStyles = makeStyles({
 });
 
 const Comment = (props) => {
+  const date = new Date(props.date);
   return(
-  <div>{props.text}</div>
+  <div>
+    <span>{`${date.toLocaleString()}: `}</span>
+    <span>{props.text}</span>
+ 
+  </div>
   )
 }
 

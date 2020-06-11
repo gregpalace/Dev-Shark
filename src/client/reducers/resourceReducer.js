@@ -14,7 +14,12 @@ const initialState = {
       liked: false,
     },
   ],
-  currentTopic: 'Javascript',
+  currentTopic: {
+    _id: "5ee12f3ce11d110f1c35dfb0",
+    id: 1,
+    name: "React",
+    __v: 21,
+  },
   topics: [],
 };
 
